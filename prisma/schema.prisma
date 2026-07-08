@@ -1,0 +1,418 @@
+// FitPro Platform — Prisma Schema
+// Postgres (Supabase). Auth users live in Supabase's `auth.users` table;
+// `User.supabaseId` mirrors that row's UUID (no cross-schema FK, by design).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+
+
+
+  // ─────────────────────────────────────────────────────────────────────────
+
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+  // ─────────────────────────────────────────────────────────────────────────
+
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Enums
+// ─────────────────────────────────────────────────────────────────────────
+
+enum Role {
+  ADMIN
+  TRAINER
+  CLIENT
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum Goal {
+  FAT_LOSS
+  MUSCLE_GAIN
+  RECOMPOSITION
+  MAINTENANCE
+}
+
+enum ActivityLevel {
+  SEDENTARY
+  LIGHT
+  MODERATE
+  ACTIVE
+  VERY_ACTIVE
+}
+
+enum ExperienceLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum TrainingStyle {
+  PUSH_PULL_LEGS
+  UPPER_LOWER
+  BRO_SPLIT
+  FULL_BODY
+  STRENGTH
+  HYPERTROPHY
+  FAT_LOSS
+  HOME_WORKOUT
+  GYM_WORKOUT
+}
+
+enum PlanGeneratedBy {
+  AI
+  TRAINER
+}
+
+enum PlanStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+enum SubscriptionStatus {
+  TRIAL
+  ACTIVE
+  EXPIRED
+  CANCELLED
+}
+
+enum NotificationType {
+  MEAL_REMINDER
+  WORKOUT_REMINDER
+  WATER_REMINDER
+  SLEEP_REMINDER
+  WEEKLY_REPORT
+  GENERAL
+}
+
+enum MeasurementSource {
+  MANUAL
+  PDF_EXTRACTED
+  TRAINER
+}
+
+enum PhotoAngle {
+  FRONT
+  SIDE
+  BACK
+}
+
+enum Difficulty {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  EXCUSED
+}
+
+enum ReportFormat {
+  PDF
+  EXCEL
+}
+
+enum ReportKind {
+  CLIENT_PROGRESS
+  MEAL_PLAN
+  WORKOUT_PLAN
+  ANALYTICS
+  ATTENDANCE
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Identity
+// ─────────────────────────────────────────────────────────────────────────
+
+model User {
+  id          String   @id @default(uuid())
+  supabaseId  String   @unique // maps to auth.users.id in Supabase
+  email       String   @unique
+  name        String
+  phone       String?
+  role        Role     @default(CLIENT)
+  avatarUrl   String?
+  locale      String   @default("en")
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  trainerProfile TrainerProfile?
+  clientProfile  ClientProfile?
+
+  notificationsReceived Notification[] @relation("NotificationRecipient")
+  notificationsSent     Notification[] @relation("NotificationSender")
+  reportsGenerated      Report[]       @relation("ReportGeneratedBy")
+  bodyAnalysesUploaded  BodyAnalysisReport[] @relation("BodyAnalysisUploadedBy")
+  auditLogs             AuditLog[]
+
+  @@index([role])
+}
+
+model TrainerProfile {
+  id          String   @id @default(uuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bio         String?
+  specialties String[]
+  yearsExperience Int?
+  createdAt   DateTime @default(now())
+
+  clients ClientProfile[]
+}
+
+model ClientProfile {
+  id               String   @id @default(uuid())
+  userId           String   @unique
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  trainerId        String?
+  trainer          TrainerProfile? @relation(fields: [trainerId], references: [id], onDelete: SetNull)
+
+  age              Int?
+  gender           Gender?
+  heightCm         Float?
+  goal             Goal              @default(MAINTENANCE)
+  activityLevel    ActivityLevel     @default(MODERATE)
+  experience       ExperienceLevel   @default(BEGINNER)
+  injuries         String?
+  diseases         String?
+  sleepHours       Float?
+  waterIntakeMl    Int?
+
+  subscriptionStatus SubscriptionStatus @default(TRIAL)
+  subscriptionStart  DateTime?
+  subscriptionEnd    DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  measurements     Measurement[]
+  bodyAnalyses     BodyAnalysisReport[]
+  progressPhotos   ProgressPhoto[]
+  mealPlans        MealPlan[]
+  workoutPlans     WorkoutPlan[]
+  attendances      Attendance[]
+  reports          Report[]
+  subscriptions    Subscription[]
+
+  @@index([trainerId])
+  @@index([goal])
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Progress tracking
+// ─────────────────────────────────────────────────────────────────────────
+
+model Measurement {
+  id            String   @id @default(uuid())
+  clientId      String
+  client        ClientProfile @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  date          DateTime @default(now())
+  weightKg      Float?
+  bodyFatPct    Float?
+  muscleMassKg  Float?
+  bmi           Float?
+  waistCm       Float?
+  chestCm       Float?
+  hipCm         Float?
+  armCm         Float?
+  thighCm       Float?
+  notes         String?
+  source        MeasurementSource @default(MANUAL)
+  createdAt     DateTime @default(now())
+
+  @@index([clientId, date])
+}
+
+model BodyAnalysisReport {
+  id             String   @id @default(uuid())
+  clientId       String
+  client         ClientProfile @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  uploadedById   String
+  uploadedBy     User     @relation("BodyAnalysisUploadedBy", fields: [uploadedById], references: [id])
+  fileUrl        String
+  fileName       String
+  extractedData  Json     // structured metrics parsed from the PDF
+  summary        String?
+  createdAt      DateTime @default(now())
+
+  @@index([clientId, createdAt])
+}
+
+model ProgressPhoto {
+  id        String     @id @default(uuid())
+  clientId  String
+  client    ClientProfile @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  url       String
+  angle     PhotoAngle @default(FRONT)
+  takenAt   DateTime   @default(now())
+  notes     String?
+  createdAt DateTime   @default(now())
+
+  @@index([clientId, takenAt])
+}
+
+model Attendance {
+  id        String           @id @default(uuid())
+  clientId  String
+  client    ClientProfile    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  date      DateTime         @default(now())
+  status    AttendanceStatus @default(PRESENT)
+  notes     String?
+
+  @@unique([clientId, date])
+  @@index([clientId, date])
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// AI Nutrition
+// ─────────────────────────────────────────────────────────────────────────
+
+model MealPlan {
+  id            String   @id @default(uuid())
+  clientId      String
+  client        ClientProfile @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  goal          Goal
+  bmr           Float
+  tdee          Float
+  calories      Int
+  proteinG      Int
+  carbsG        Int
+  fatG          Int
+  waterMl       Int
+
+  meals         Json     // { breakfast, morningSnack, lunch, afternoonSnack, dinner }
+  supplements   Json?
+  alternatives  Json?
+  shoppingList  Json?
+
+  generatedBy   PlanGeneratedBy @default(AI)
+  status        PlanStatus      @default(ACTIVE)
+  weekStart     DateTime        @default(now())
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  @@index([clientId, status])
+}
+
+model WorkoutPlan {
+  id            String   @id @default(uuid())
+  clientId      String
+  client        ClientProfile @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  style         TrainingStyle
+  experience    ExperienceLevel
+  daysPerWeek   Int
+
+  schedule      Json     // weekly schedule: day -> [{ exercise, sets, reps, rest, tempo, notes }]
+
+  generatedBy   PlanGeneratedBy @default(AI)
+  status        PlanStatus      @default(ACTIVE)
+  weekStart     DateTime        @default(now())
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  @@index([clientId, status])
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Exercise library
+// ─────────────────────────────────────────────────────────────────────────
+
+model Exercise {
+  id               String     @id @default(uuid())
+  name             String
+  nameAr           String?
+  slug             String     @unique
+  muscleGroup      String
+  secondaryMuscles String[]
+  difficulty       Difficulty @default(BEGINNER)
+  equipment        String
+  instructions     String
+  instructionsAr   String?
+  commonMistakes   String?
+  imageUrl         String?
+  videoUrl         String?
+  animationUrl     String?
+  alternativeSlugs String[]
+  createdAt        DateTime   @default(now())
+
+  @@index([muscleGroup])
+  @@index([difficulty])
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Notifications, reports, billing, audit
+// ─────────────────────────────────────────────────────────────────────────
+
+model Notification {
+  id          String           @id @default(uuid())
+  recipientId String
+  recipient   User             @relation("NotificationRecipient", fields: [recipientId], references: [id], onDelete: Cascade)
+  senderId    String?
+  sender      User?            @relation("NotificationSender", fields: [senderId], references: [id], onDelete: SetNull)
+  type        NotificationType @default(GENERAL)
+  title       String
+  titleAr     String?
+  body        String
+  bodyAr      String?
+  read        Boolean          @default(false)
+  createdAt   DateTime         @default(now())
+
+  @@index([recipientId, read])
+}
+
+model Report {
+  id           String       @id @default(uuid())
+  clientId     String?
+  client       ClientProfile? @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  kind         ReportKind
+  format       ReportFormat
+  fileUrl      String
+  generatedById String
+  generatedBy  User         @relation("ReportGeneratedBy", fields: [generatedById], references: [id])
+  createdAt    DateTime     @default(now())
+
+  @@index([clientId, kind])
+}
+
+model Subscription {
+  id        String             @id @default(uuid())
+  clientId  String
+  client    ClientProfile      @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  plan      String
+  status    SubscriptionStatus @default(TRIAL)
+  price     Float
+  currency  String             @default("USD")
+  startDate DateTime           @default(now())
+  endDate   DateTime?
+  createdAt DateTime           @default(now())
+
+  @@index([clientId])
+  @@index([status])
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  action    String
+  entity    String
+  entityId  String?
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
