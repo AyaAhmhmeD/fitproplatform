@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+/* Enable class-based dark mode (driven by next-themes) instead of the
+   media-query default, so users can force light/dark independent of OS. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* ── Brand palette — "obsidian & volt" ─────────────────────────────── */
+  --color-brand-50: #f3ffe6;
+  --color-brand-100: #e2ffbf;
+  --color-brand-200: #c9ff85;
+  --color-brand-300: #aaf94a;
+  --color-brand-400: #8fef22;
+  --color-brand-500: #72d80e;
+  --color-brand-600: #57ab09;
+  --color-brand-700: #40800a;
+  --color-brand-800: #35660d;
+  --color-brand-900: #2d5510;
+  --color-brand-950: #142d04;
+
+  --color-ink-50: #f6f7f9;
+  --color-ink-100: #eceef2;
+  --color-ink-200: #d4d8e1;
+  --color-ink-300: #aab1c2;
+  --color-ink-400: #7c869e;
+  --color-ink-500: #5c6580;
+  --color-ink-600: #454c64;
+  --color-ink-700: #343a4d;
+  --color-ink-800: #1f232f;
+  --color-ink-900: #14161f;
+  --color-ink-950: #0a0b11;
+
+  --color-gold-400: #f2cd7a;
+  --color-gold-500: #e0b455;
+
+  --font-sans: var(--font-inter), "Tajawal", ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-manrope), "Tajawal", ui-sans-serif, system-ui, sans-serif;
+  --font-arabic: var(--font-tajawal), "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 1.25rem;
+  --radius-pill: 999px;
+
+  --shadow-glass: 0 8px 32px 0 rgb(10 11 17 / 0.28);
+  --shadow-glow: 0 0 0 1px rgb(143 239 34 / 0.15), 0 8px 24px -4px rgb(143 239 34 / 0.25);
+}
+
+:root {
+  --background: var(--color-ink-50);
+  --foreground: var(--color-ink-900);
+  --surface: #ffffff;
+  --surface-muted: var(--color-ink-100);
+  --border-subtle: var(--color-ink-200);
+}
+
+.dark {
+  --background: var(--color-ink-950);
+  --foreground: var(--color-ink-50);
+  --surface: var(--color-ink-900);
+  --surface-muted: var(--color-ink-800);
+  --border-subtle: var(--color-ink-800);
+}
+
+html {
+  color-scheme: light dark;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+html[dir="rtl"] body {
+  font-family: var(--font-arabic);
+}
+
+/* ── Reusable premium surface utilities ─────────────────────────────── */
+
+.glass-panel {
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid color-mix(in srgb, var(--border-subtle) 80%, transparent);
+  box-shadow: var(--shadow-glass);
+}
+
+.card-surface {
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+}
+
+.glow-ring {
+  box-shadow: var(--shadow-glow);
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  scrollbar-width: none;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--surface-muted) 25%,
+    color-mix(in srgb, var(--surface-muted) 60%, transparent) 50%,
+    var(--surface-muted) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
