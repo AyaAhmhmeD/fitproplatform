@@ -1,0 +1,132 @@
+{
+  "common": {
+    "appName": "FitPro",
+    "tagline": "Train smarter. Live stronger.",
+    "save": "Save",
+    "cancel": "Cancel",
+    "loading": "Loading…",
+    "error": "Something went wrong",
+    "retry": "Try again",
+    "seeAll": "See all",
+    "back": "Back",
+    "close": "Close",
+    "today": "Today",
+    "days": "days",
+    "rest": "Rest",
+    "generate": "Generate",
+    "regenerate": "Regenerate",
+    "notSet": "Not set"
+  },
+  "auth": {
+    "welcomeBack": "Welcome back",
+    "loginSubtitle": "Sign in to keep training toward your goals.",
+    "createAccount": "Create your account",
+    "registerSubtitle": "Join FitPro and get a plan built around you.",
+    "email": "Email",
+    "password": "Password",
+    "fullName": "Full name",
+    "login": "Log in",
+    "register": "Create account",
+    "continueWithGoogle": "Continue with Google",
+    "continueWithApple": "Continue with Apple",
+    "orDivider": "or",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "signUp": "Sign up",
+    "signIn": "Sign in",
+    "logout": "Log out",
+    "invalidCredentials": "Check your email and password and try again.",
+    "notConfigured": "FitPro isn't configured yet — set EXPO_PUBLIC_SUPABASE_URL and EXPO_PUBLIC_SUPABASE_ANON_KEY."
+  },
+  "nav": {
+    "overview": "Overview",
+    "trainers": "Trainers",
+    "clients": "Clients",
+    "reports": "Reports",
+    "exercises": "Exercises",
+    "profile": "Profile",
+    "dashboard": "Dashboard",
+    "nutrition": "Nutrition",
+    "workouts": "Workouts",
+    "progress": "Progress"
+  },
+  "stats": {
+    "weight": "Weight",
+    "bodyFat": "Body Fat",
+    "muscleMass": "Muscle Mass",
+    "bmi": "BMI",
+    "calories": "Calories",
+    "water": "Water",
+    "protein": "Protein",
+    "carbs": "Carbs",
+    "fat": "Fat"
+  },
+  "dashboard": {
+    "greeting": "Hi {{name}}",
+    "quickLinks": "Quick links",
+    "latestMeasurement": "Latest check-in",
+    "noMeasurement": "No measurements logged yet.",
+    "activePlan": "Active nutrition targets",
+    "noPlan": "No active meal plan yet — ask your trainer to generate one."
+  },
+  "nutrition": {
+    "title": "Nutrition plan",
+    "breakfast": "Breakfast",
+    "morningSnack": "Morning snack",
+    "lunch": "Lunch",
+    "afternoonSnack": "Afternoon snack",
+    "dinner": "Dinner",
+    "supplements": "Supplements",
+    "alternatives": "Alternatives",
+    "shoppingList": "Shopping list",
+    "macros": "{{cal}} kcal · P {{p}}g · C {{c}}g · F {{f}}g",
+    "empty": "No active meal plan yet."
+  },
+  "workouts": {
+    "title": "Workout plan",
+    "restDay": "Rest day",
+    "sets": "sets",
+    "reps": "reps",
+    "restSeconds": "rest",
+    "tempo": "tempo",
+    "empty": "No active workout plan yet."
+  },
+  "progress": {
+    "title": "Progress",
+    "weightTrend": "Weight trend",
+    "bodyFatTrend": "Body fat trend",
+    "addPhoto": "Add progress photo",
+    "photos": "Progress photos",
+    "noData": "Log a few check-ins to see your trend."
+  },
+  "trainerClients": {
+    "title": "Your clients",
+    "search": "Search clients",
+    "empty": "No clients yet.",
+    "generateMealPlan": "Generate meal plan",
+    "generateWorkoutPlan": "Generate workout plan",
+    "intake": "Intake"
+  },
+  "admin": {
+    "overview": "Overview",
+    "totalClients": "Total clients",
+    "totalTrainers": "Total trainers",
+    "activeSubscriptions": "Active subscriptions",
+    "attendanceRate": "Attendance rate"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all read",
+    "empty": "You're all caught up."
+  },
+  "settings": {
+    "title": "Settings",
+    "appearance": "Appearance",
+    "dark": "Dark",
+    "light": "Light",
+    "language": "Language",
+    "english": "English",
+    "arabic": "العربية",
+    "restartNotice": "The app needs to restart to apply the new text direction."
+  }
+}

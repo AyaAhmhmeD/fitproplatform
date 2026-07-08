@@ -1,0 +1,132 @@
+{
+  "common": {
+    "appName": "فيت برو",
+    "tagline": "تدرّب بذكاء. عِش بقوة.",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "loading": "جارٍ التحميل…",
+    "error": "حدث خطأ ما",
+    "retry": "أعد المحاولة",
+    "seeAll": "عرض الكل",
+    "back": "رجوع",
+    "close": "إغلاق",
+    "today": "اليوم",
+    "days": "أيام",
+    "rest": "راحة",
+    "generate": "إنشاء",
+    "regenerate": "إعادة الإنشاء",
+    "notSet": "غير محدد"
+  },
+  "auth": {
+    "welcomeBack": "مرحباً بعودتك",
+    "loginSubtitle": "سجّل الدخول لمتابعة تحقيق أهدافك.",
+    "createAccount": "أنشئ حسابك",
+    "registerSubtitle": "انضم إلى فيت برو واحصل على خطة مصممة خصيصاً لك.",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "fullName": "الاسم الكامل",
+    "login": "تسجيل الدخول",
+    "register": "إنشاء حساب",
+    "continueWithGoogle": "المتابعة عبر جوجل",
+    "continueWithApple": "المتابعة عبر آبل",
+    "orDivider": "أو",
+    "noAccount": "ليس لديك حساب؟",
+    "haveAccount": "لديك حساب بالفعل؟",
+    "signUp": "إنشاء حساب",
+    "signIn": "تسجيل الدخول",
+    "logout": "تسجيل الخروج",
+    "invalidCredentials": "تحقق من بريدك الإلكتروني وكلمة المرور وحاول مرة أخرى.",
+    "notConfigured": "لم يتم إعداد فيت برو بعد — يرجى ضبط EXPO_PUBLIC_SUPABASE_URL و EXPO_PUBLIC_SUPABASE_ANON_KEY."
+  },
+  "nav": {
+    "overview": "نظرة عامة",
+    "trainers": "المدربون",
+    "clients": "العملاء",
+    "reports": "التقارير",
+    "exercises": "التمارين",
+    "profile": "الملف الشخصي",
+    "dashboard": "الرئيسية",
+    "nutrition": "التغذية",
+    "workouts": "التمارين",
+    "progress": "التقدم"
+  },
+  "stats": {
+    "weight": "الوزن",
+    "bodyFat": "نسبة الدهون",
+    "muscleMass": "الكتلة العضلية",
+    "bmi": "مؤشر كتلة الجسم",
+    "calories": "السعرات",
+    "water": "الماء",
+    "protein": "البروتين",
+    "carbs": "الكربوهيدرات",
+    "fat": "الدهون"
+  },
+  "dashboard": {
+    "greeting": "مرحباً {{name}}",
+    "quickLinks": "روابط سريعة",
+    "latestMeasurement": "آخر قياس",
+    "noMeasurement": "لم يتم تسجيل أي قياسات بعد.",
+    "activePlan": "أهداف التغذية الحالية",
+    "noPlan": "لا توجد خطة تغذية نشطة بعد — اطلب من مدربك إنشاء واحدة."
+  },
+  "nutrition": {
+    "title": "خطة التغذية",
+    "breakfast": "الفطور",
+    "morningSnack": "وجبة خفيفة صباحية",
+    "lunch": "الغداء",
+    "afternoonSnack": "وجبة خفيفة بعد الظهر",
+    "dinner": "العشاء",
+    "supplements": "المكملات",
+    "alternatives": "البدائل",
+    "shoppingList": "قائمة التسوق",
+    "macros": "{{cal}} سعرة · بروتين {{p}} جم · كربوهيدرات {{c}} جم · دهون {{f}} جم",
+    "empty": "لا توجد خطة تغذية نشطة بعد."
+  },
+  "workouts": {
+    "title": "خطة التمرين",
+    "restDay": "يوم راحة",
+    "sets": "مجموعات",
+    "reps": "تكرارات",
+    "restSeconds": "الراحة",
+    "tempo": "الإيقاع",
+    "empty": "لا توجد خطة تمرين نشطة بعد."
+  },
+  "progress": {
+    "title": "التقدم",
+    "weightTrend": "تطور الوزن",
+    "bodyFatTrend": "تطور نسبة الدهون",
+    "addPhoto": "إضافة صورة تقدم",
+    "photos": "صور التقدم",
+    "noData": "سجّل بعض القياسات لرؤية تطورك."
+  },
+  "trainerClients": {
+    "title": "عملاؤك",
+    "search": "ابحث عن عميل",
+    "empty": "لا يوجد عملاء بعد.",
+    "generateMealPlan": "إنشاء خطة تغذية",
+    "generateWorkoutPlan": "إنشاء خطة تمرين",
+    "intake": "بيانات العميل"
+  },
+  "admin": {
+    "overview": "نظرة عامة",
+    "totalClients": "إجمالي العملاء",
+    "totalTrainers": "إجمالي المدربين",
+    "activeSubscriptions": "الاشتراكات النشطة",
+    "attendanceRate": "معدل الحضور"
+  },
+  "notifications": {
+    "title": "الإشعارات",
+    "markAllRead": "تحديد الكل كمقروء",
+    "empty": "لا توجد إشعارات جديدة."
+  },
+  "settings": {
+    "title": "الإعدادات",
+    "appearance": "المظهر",
+    "dark": "داكن",
+    "light": "فاتح",
+    "language": "اللغة",
+    "english": "English",
+    "arabic": "العربية",
+    "restartNotice": "يحتاج التطبيق إلى إعادة التشغيل لتطبيق اتجاه النص الجديد."
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "expo": {
+    "name": "FitPro",
+    "slug": "fitpro-mobile",
+    "scheme": "fitpro",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.fitpro.mobile"
+    },
+    "android": {
+      "package": "com.fitpro.mobile",
+      "adaptiveIcon": {
+        "backgroundColor": "#0a0b11",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-updates",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "FitPro uses your photos to let you attach progress photos to your profile."
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 160,
+          "resizeMode": "contain",
+          "backgroundColor": "#0a0b11"
+        }
+      ]
+    ]
+  }
+}
